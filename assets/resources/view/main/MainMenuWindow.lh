@@ -1,0 +1,87 @@
+{
+  "_$ver": 1,
+  "_$id": "afut3nlr",
+  "_$runtime": "res://48486429-8b12-45a9-8be3-a37f15584b5c",
+  "_$type": "Box",
+  "name": "MainMenuWindow",
+  "width": 1136,
+  "height": 640,
+  "_mouseState": 2,
+  "bgColor": "rgba(230, 230, 230, 1)",
+  "_$comp": [
+    {
+      "_$type": "2f7047ef-43df-4890-9f11-8869e3509609",
+      "scriptPath": "../src/game/model/main/view/MainMenuWindow.ts"
+    }
+  ],
+  "_$child": [
+    {
+      "_$id": "kh5h4qa2",
+      "_$var": true,
+      "_$type": "Label",
+      "name": "titletxt",
+      "x": 366,
+      "y": 29,
+      "width": 404,
+      "height": 61,
+      "centerX": 0,
+      "text": "后台管理",
+      "fontSize": 60,
+      "color": "rgba(0, 0, 0, 1)",
+      "bold": true,
+      "align": "center",
+      "valign": "top",
+      "padding": "0,0,0,0"
+    },
+    {
+      "_$id": "zq0at4to",
+      "_$var": true,
+      "_$type": "List",
+      "name": "List",
+      "x": 123,
+      "y": 124,
+      "width": 890,
+      "height": 399,
+      "_mouseState": 2,
+      "bgColor": "rgba(221, 221, 221, 1)",
+      "itemTemplate": {
+        "_$ref": "eo0x47jz",
+        "_$tmpl": "itemRender"
+      },
+      "repeatX": 4,
+      "repeatY": 6,
+      "elasticEnabled": true,
+      "spaceX": 10,
+      "spaceY": 10,
+      "scrollType": 2,
+      "_$child": [
+        {
+          "_$id": "eo0x47jz",
+          "_$prefab": "8f03536f-97c7-453f-a37a-c215823d8774",
+          "name": "MainMenuTabItem",
+          "active": true,
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "_$id": "xpz755at",
+      "_$var": true,
+      "_$type": "Button",
+      "name": "closeBtn",
+      "x": 135.45000000000005,
+      "y": 574.15,
+      "width": 210.90000000000012,
+      "height": 70.30000000000001,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "_mouseState": 2,
+      "skin": "res://d4cfd6a8-0d0a-475b-ac93-d85eaa646936",
+      "label": "<=返回",
+      "labelSize": 38,
+      "labelBold": true,
+      "labelColors": "#ffffff,#ffffff,#ffffff"
+    }
+  ]
+}

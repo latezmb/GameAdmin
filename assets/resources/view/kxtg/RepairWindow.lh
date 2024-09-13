@@ -1,0 +1,136 @@
+{
+  "_$ver": 1,
+  "_$id": "afut3nlr",
+  "_$runtime": "res://e1882436-c7a0-434c-a799-812078cd6ba9",
+  "_$type": "Box",
+  "name": "RepairWindow",
+  "width": 1136,
+  "height": 640,
+  "_mouseState": 2,
+  "bgColor": "rgba(211, 211, 211, 1)",
+  "_$comp": [
+    {
+      "_$type": "97450fe9-6b91-4580-a220-51ec04916676",
+      "scriptPath": "../src/game/model/kxtg/view/RepairWindow.ts"
+    }
+  ],
+  "_$child": [
+    {
+      "_$id": "bnedwgmk",
+      "_$var": true,
+      "_$type": "Button",
+      "name": "closeBtn",
+      "x": 135.45000000000005,
+      "y": 574,
+      "width": 210.90000000000012,
+      "height": 70.30000000000001,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "_mouseState": 2,
+      "skin": "res://d4cfd6a8-0d0a-475b-ac93-d85eaa646936",
+      "label": "<=返回",
+      "labelSize": 38,
+      "labelBold": true,
+      "labelColors": "#ffffff,#ffffff,#ffffff"
+    },
+    {
+      "_$id": "b74frkbp",
+      "_$var": true,
+      "_$type": "List",
+      "name": "List",
+      "x": 124,
+      "y": 139,
+      "width": 921,
+      "height": 338,
+      "_mouseState": 2,
+      "itemTemplate": {
+        "_$ref": "l2usgphb",
+        "_$tmpl": "itemRender"
+      },
+      "repeatX": 1,
+      "repeatY": 4,
+      "spaceY": 10,
+      "_$child": [
+        {
+          "_$id": "l2usgphb",
+          "_$prefab": "b65d7163-52e8-4f0a-85a5-979efc94f619",
+          "name": "RepairItem",
+          "active": true,
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "_$id": "tnxd9ynb",
+      "_$var": true,
+      "_$type": "Button",
+      "name": "addBtn",
+      "x": 439.45000000000005,
+      "y": 574,
+      "width": 210.90000000000012,
+      "height": 70.30000000000001,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "_mouseState": 2,
+      "skin": "res://d4cfd6a8-0d0a-475b-ac93-d85eaa646936",
+      "label": "加一个",
+      "labelSize": 38,
+      "labelBold": true,
+      "labelColors": "#ffffff,#ffffff,#ffffff"
+    },
+    {
+      "_$id": "0ba4x6xq",
+      "_$type": "Label",
+      "x": 280,
+      "y": 29,
+      "width": 576,
+      "height": 61,
+      "centerX": 0,
+      "text": "开心通关修复关卡",
+      "fontSize": 60,
+      "color": "rgba(255, 255, 255, 1)",
+      "bold": true,
+      "align": "center",
+      "valign": "top",
+      "padding": "0,0,0,0",
+      "stroke": 4
+    },
+    {
+      "_$id": "x72b3zj8",
+      "_$var": true,
+      "_$type": "Button",
+      "name": "yesBtn",
+      "x": 1005,
+      "y": 574,
+      "width": 210.90000000000012,
+      "height": 70.30000000000001,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "_mouseState": 2,
+      "skin": "res://d4cfd6a8-0d0a-475b-ac93-d85eaa646936",
+      "label": "生成数据",
+      "labelSize": 38,
+      "labelBold": true,
+      "labelColors": "#ffffff,#ffffff,#ffffff"
+    },
+    {
+      "_$id": "d5wkkb5j",
+      "_$var": true,
+      "_$type": "Button",
+      "name": "resetBtn",
+      "x": 730,
+      "y": 574,
+      "width": 210.90000000000012,
+      "height": 70.30000000000001,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "_mouseState": 2,
+      "skin": "res://d4cfd6a8-0d0a-475b-ac93-d85eaa646936",
+      "label": "重置",
+      "labelSize": 38,
+      "labelBold": true,
+      "labelColors": "#ffffff,#ffffff,#ffffff"
+    }
+  ]
+}
