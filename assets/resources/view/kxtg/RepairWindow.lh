@@ -38,11 +38,12 @@
       "_$var": true,
       "_$type": "List",
       "name": "List",
-      "x": 124,
+      "x": 108,
       "y": 139,
       "width": 921,
       "height": 338,
       "_mouseState": 2,
+      "centerX": 0,
       "itemTemplate": {
         "_$ref": "l2usgphb",
         "_$tmpl": "itemRender"

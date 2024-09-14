@@ -43,6 +43,7 @@
       "width": 890,
       "height": 399,
       "_mouseState": 2,
+      "centerX": 0,
       "bgColor": "rgba(221, 221, 221, 1)",
       "itemTemplate": {
         "_$ref": "eo0x47jz",

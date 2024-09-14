@@ -1,4 +1,7 @@
 {
+  "resolution": {
+    "screenMode": "horizontal"
+  },
   "3D": {
     "lightClusterCount": {
       "x": 12,

@@ -2,6 +2,6 @@
 temp
 library
 local
-# release
+release
 node_modules
 bin/js/bundles

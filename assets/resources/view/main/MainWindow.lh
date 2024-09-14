@@ -57,6 +57,7 @@
       "y": 207,
       "width": 600,
       "height": 159,
+      "centerX": 0,
       "skin": "res://c95ef96a-e095-434f-95a4-58156890681f",
       "useSourceSize": true,
       "color": "#ffffff"
