@@ -1,0 +1,20 @@
+{
+  "_$ver": 1,
+  "_$id": "025f72gawk",
+  "_$runtime": "res://237b5f2a-c3ec-417d-a271-0123da6cbfa2",
+  "_$preloads": [
+    "res://8acbedf5-6df3-4ff6-b808-ff3b3b53627c",
+    "res://e3d980c2-06ae-473d-851a-4747f1fc4271"
+  ],
+  "_$type": "Box",
+  "name": "TipsWindow",
+  "width": 1136,
+  "height": 640,
+  "mouseThrough": true,
+  "_$comp": [
+    {
+      "_$type": "1ad44e44-969f-48e5-8be1-fd43b1b71897",
+      "scriptPath": "../src/game/model/tips/TipsWindow.ts"
+    }
+  ]
+}

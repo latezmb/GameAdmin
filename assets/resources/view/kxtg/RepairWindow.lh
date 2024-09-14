@@ -7,7 +7,7 @@
   "width": 1136,
   "height": 640,
   "_mouseState": 2,
-  "bgColor": "rgba(211, 211, 211, 1)",
+  "bgColor": "rgba(51, 51, 51, 1)",
   "_$comp": [
     {
       "_$type": "97450fe9-6b91-4580-a220-51ec04916676",
@@ -50,6 +50,7 @@
       "repeatX": 1,
       "repeatY": 4,
       "spaceY": 10,
+      "scrollType": 2,
       "_$child": [
         {
           "_$id": "l2usgphb",
@@ -100,7 +101,7 @@
       "_$id": "x72b3zj8",
       "_$var": true,
       "_$type": "Button",
-      "name": "yesBtn",
+      "name": "generateBtn",
       "x": 1005,
       "y": 574,
       "width": 210.90000000000012,

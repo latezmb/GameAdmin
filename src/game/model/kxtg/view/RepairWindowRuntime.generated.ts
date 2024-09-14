@@ -8,7 +8,7 @@ export class RepairWindowRuntimeBase extends Laya.Box {
     public closeBtn!: Laya.Button;
     public List!: Laya.List;
     public addBtn!: Laya.Button;
-    public yesBtn!: Laya.Button;
+    public generateBtn!: Laya.Button;
     public resetBtn!: Laya.Button;
 }
 

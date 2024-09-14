@@ -26,6 +26,7 @@
     },
     {
       "_$id": "d5jwlztb",
+      "_$var": true,
       "_$type": "TextInput",
       "name": "idInput",
       "x": 129,
@@ -63,6 +64,7 @@
     },
     {
       "_$id": "9uet71i2",
+      "_$var": true,
       "_$type": "TextInput",
       "name": "levelInput",
       "x": 441,
@@ -100,6 +102,7 @@
     },
     {
       "_$id": "uf9wchth",
+      "_$var": true,
       "_$type": "TextInput",
       "name": "skinInput",
       "x": 64,
@@ -137,6 +140,7 @@
     },
     {
       "_$id": "gn6ggzh5",
+      "_$var": true,
       "_$type": "TextInput",
       "name": "versionInput",
       "x": 608,

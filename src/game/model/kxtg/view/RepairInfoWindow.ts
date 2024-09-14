@@ -10,8 +10,8 @@ export class RepairInfoWindow extends WindowBase<RepairInfoWindowRuntime> {
         
     }
 
-    protected onOpen(...param: any): void {
-        
+    protected onOpen(str: string): void {
+        this.owner.TextArea.text = str;
     }
 
     protected onClose(...param: any): void {

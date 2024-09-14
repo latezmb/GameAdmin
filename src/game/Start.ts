@@ -51,9 +51,11 @@ export class Start extends FrameMain {
         ModuleConfig.register(this.LoadingWindowName, "resources/view/loading/LoadingWindow.lh", LayerType.top);
         ModuleConfig.register("MainWindow", "resources/view/main/MainWindow.lh");
         ModuleConfig.register("MainMenuWindow", "resources/view/main/MainMenuWindow.lh");
+        ModuleConfig.register("TipsWindow", "resources/view/tips/TipsWindow.lh", LayerType.tips);
 
         // 开心通关
         ModuleConfig.register("RepairWindow", "resources/view/kxtg/RepairWindow.lh");
+        ModuleConfig.register("RepairInfoWindow", "resources/view/kxtg/RepairInfoWindow.lh");
     }
 
     protected initProxy() {

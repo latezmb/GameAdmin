@@ -1,0 +1,32 @@
+{
+  "_$ver": 1,
+  "_$id": "6c54c4tg",
+  "_$runtime": "res://58cce217-acce-4684-8f4b-9c145510192a",
+  "_$type": "Box",
+  "name": "TipsItem",
+  "x": 268,
+  "width": 600,
+  "height": 80,
+  "_mouseState": 2,
+  "centerX": 0,
+  "bgColor": "rgba(0, 0, 0, 0.7)",
+  "_$child": [
+    {
+      "_$id": "ryg7qfr5",
+      "_$var": true,
+      "_$type": "Text",
+      "name": "content",
+      "width": 600,
+      "height": 80,
+      "text": "提示：金币不足！",
+      "fontSize": 28,
+      "color": "rgba(255, 255, 255, 1)",
+      "bold": true,
+      "align": "center",
+      "valign": "middle",
+      "leading": 2,
+      "stroke": 3,
+      "strokeColor": "rgba(0, 0, 0, 1)"
+    }
+  ]
+}

@@ -5,6 +5,10 @@
  * resources/view/kxtg/RepairItem.lh
  */
 export class RepairItemBase extends Laya.Box {
+    public idInput!: Laya.TextInput;
+    public levelInput!: Laya.TextInput;
+    public skinInput!: Laya.TextInput;
+    public versionInput!: Laya.TextInput;
     public delBtn!: Laya.Button;
 }
 

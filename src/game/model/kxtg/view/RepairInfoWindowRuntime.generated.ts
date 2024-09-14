@@ -6,5 +6,6 @@
  */
 export class RepairInfoWindowRuntimeBase extends Laya.Box {
     public closeBtn!: Laya.Button;
+    public TextArea!: Laya.TextArea;
 }
 

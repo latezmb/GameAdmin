@@ -11,8 +11,7 @@
   "_$comp": [
     {
       "_$type": "e7f99124-8e3d-45de-8b6a-859dbe6b02a0",
-      "scriptPath": "../src/game/model/kxtg/view/RepairInfoWindow.ts",
-      "text": ""
+      "scriptPath": "../src/game/model/kxtg/view/RepairInfoWindow.ts"
     }
   ],
   "_$child": [
@@ -54,6 +53,7 @@
     },
     {
       "_$id": "af41fz04",
+      "_$var": true,
       "_$type": "TextArea",
       "name": "TextArea",
       "x": 135,
@@ -64,7 +64,8 @@
       "centerX": 0,
       "text": "TextArea",
       "fontSize": 20,
-      "color": "#FFFFFF",
+      "color": "rgba(0, 0, 0, 1)",
+      "bold": true,
       "valign": "top",
       "overflow": "scroll",
       "padding": "6,6,6,6",
