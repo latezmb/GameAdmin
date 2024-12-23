@@ -10,10 +10,6 @@ export class MainWindow extends WindowBase<MainWindowRuntime> {
     checkOnShow: boolean = false;
     checkOnHide: boolean = false;
 
-    // private btns = [
-    //     {txt: "修复关卡", win: "RepairWindow"}
-    // ];
-
     protected onInit(): void {
         
     }

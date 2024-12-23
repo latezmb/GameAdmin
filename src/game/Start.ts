@@ -56,13 +56,18 @@ export class Start extends FrameMain {
         // 开心通关
         ModuleConfig.register("RepairWindow", "resources/view/kxtg/RepairWindow.lh");
         ModuleConfig.register("RepairInfoWindow", "resources/view/kxtg/RepairInfoWindow.lh");
+        
+        // 看我神操作
+        ModuleConfig.register("kwsczRepairWindow", "resources/view/kwscz/kwsczRepairWindow.lh");
+        ModuleConfig.register("kwsczRepairInfoWindow", "resources/view/kwscz/kwsczRepairInfoWindow.lh");
+        
     }
 
     protected initProxy() {
     }
 
     protected loadFinishInitOutEvent() {
-        this.addEvent("VIDEO_CLOSE_PLAYER_BGM", this, this.playBgm);
+        // this.addEvent("VIDEO_CLOSE_PLAYER_BGM", this, this.playBgm);
         this.initMusicState();
         this.playBgm();
         this.allInitFinish();

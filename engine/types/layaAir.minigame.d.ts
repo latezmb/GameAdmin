@@ -48,6 +48,11 @@ declare module laya.wx.mini {
      * @param isSon 是否是子域，默认为false
      */
     static init(isPosMsg?: boolean, isSon?: boolean): void;
+    /**
+     * 微信wasm适配加载
+     * @param wasmFile 要加载的wasm文件
+     * @returns
+     */
     private static _onMessage;
     /**
      * 获取url对应的encoding值
@@ -215,6 +220,11 @@ declare module laya.tt.mini {
      * @param isSon 是否是子域，默认为false
      */
     static init(isPosMsg?: boolean, isSon?: boolean): void;
+    /**
+     * 抖音的wasm适配加载
+     * @param wasmFile 要加载的wasm文件
+     * @returns
+     */
     private static _onMessage;
     /**
      * 获取url对应的encoding值
@@ -478,6 +488,11 @@ declare module laya.mi.mini {
      * @param isSon 是否是子域，默认为false
      */
     static init(isPosMsg?: boolean, isSon?: boolean): void;
+    /**
+     * XiaoMi快游戏的wasm适配加载
+     * @param wasmFile 要加载的wasm文件
+     * @returns
+     */
     private static _onMessage;
     /**
      * 获取url对应的encoding值
@@ -611,6 +626,11 @@ declare module laya.vv.mini {
      * @param isSon 是否是子域，默认为false
      */
     static init(isPosMsg?: boolean, isSon?: boolean): void;
+    /**
+     * ViVOminigame的wasm适配加载
+     * @param wasmFile 要加载的wasm文件
+     * @returns
+     */
     private static _onMessage;
     /**
      * 获取url对应的encoding值
@@ -744,6 +764,11 @@ declare module laya.qg.mini {
      * @param isSon 是否是子域，默认为false
      */
     static init(isPosMsg?: boolean, isSon?: boolean): void;
+    /**
+     * OPPOMiniGame的wasm适配加载
+     * @param wasmFile 要加载的wasm文件
+     * @returns
+     */
     private static _onMessage;
     /**
      * 获取url对应的encoding值

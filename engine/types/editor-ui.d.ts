@@ -611,7 +611,6 @@ declare module gui {
         getChildByPath<T extends Widget>(path: String, classType?: new () => T): T;
         setChildIndex(child: Widget, index: number): Widget;
         setChildIndexBefore(child: Widget, index: number): number;
-        private _setChildIndex;
         removeChild(child: Widget, destroy?: boolean): Widget;
         removeChildAt(index: number, destroy?: boolean): Widget;
         removeChildren(beginIndex?: number, endIndex?: number, destroy?: boolean): void;
@@ -2514,6 +2513,7 @@ declare module gui {
         _anchorX: number;
         _anchorY: number;
         _transformDirty: boolean;
+        _disableLowScroll: boolean;
         static create(): UIElement;
         constructor();
         get name(): string;

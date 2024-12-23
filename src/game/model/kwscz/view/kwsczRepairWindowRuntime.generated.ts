@@ -4,7 +4,7 @@
 /**
  * resources/view/kwscz/kwsczRepairWindow.lh
  */
-export class RepairWindowRuntimeBase extends Laya.Box {
+export class kwsczRepairWindowRuntimeBase extends Laya.Box {
     public closeBtn!: Laya.Button;
     public List!: Laya.List;
     public addBtn!: Laya.Button;

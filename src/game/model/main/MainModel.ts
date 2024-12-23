@@ -7,6 +7,13 @@ export default class MainModel {
             wins: [
                 {txt: "修复关卡", win: "RepairWindow"},
             ]
+        },
+        2: {
+            id: 2,
+            title: "看我神操作",
+            wins: [
+                {txt: "修复关卡", win: "kwsczRepairWindow"},
+            ]
         }
     }
 
