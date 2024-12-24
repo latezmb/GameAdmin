@@ -542,10 +542,10 @@
       let res = Laya.loader.getRes(url);
       if (!res) {
         if (Laya.loader.loading) {
-          Log.debug("\u6E05\u7406\u672A\u52A0\u8F7D\u8D44\u6E90:" + url);
+          Log.debug("清理未加载资源:" + url);
           Laya.loader.cancelLoadByUrl(url);
         }
-        Log.error("\u8D44\u6E90\u4E0D\u5B58\u5728:" + url);
+        Log.error("资源不存在:" + url);
         return;
       }
       this.removeReference(res);
@@ -565,7 +565,7 @@
         if (res.url.indexOf("atlas") == -1) {
           res.destroy();
         }
-        Log.debug("\u91CA\u653E\u8D44\u6E90" + res.url);
+        Log.debug("释放资源" + res.url);
       }
     }
     static gc() {
@@ -604,7 +604,7 @@
     }
     closeScene3D(url) {
       if (!this.sceneMap.has(url)) {
-        Log.debug("\u4E0D\u5B58\u57283d\u573A\u666F\uFF1A" + url);
+        Log.debug("不存在3d场景：" + url);
         return;
       }
       let scene = this.sceneMap.get(url);
@@ -692,20 +692,20 @@
         return;
       try {
         this.mFileMgr.accessSync(path);
-        console.log("\u5B58\u5728\u7F13\u5B58\u76EE\u5F55:", path);
+        console.log("存在缓存目录:", path);
         this.mIsClearCaChe = true;
       } catch (e) {
-        console.log("\u4E0D\u5B58\u5728\u7F13\u5B58\u76EE\u5F55\uFF1A", path);
+        console.log("不存在缓存目录：", path);
         this.mIsClearCaChe = false;
       }
       if (AMConfig.forceClearCaChe) {
-        console.debug("\u5F3A\u5236\u6E05\u7406\u6587\u4EF6\u7F13\u5B58");
+        console.debug("强制清理文件缓存");
         this.mIsClearCaChe = false;
       } else if (Laya.LocalStorage.getItem("CaCheVersion") == AMConfig.CacheVersion && this.mIsClearCaChe) {
-        console.log("\u7F13\u5B58\u7248\u672C\u4E00\u81F4\u4E14\u7F13\u5B58\u76EE\u5F55\u5B58\u5728\uFF0C\u4E0D\u505A\u7F13\u5B58\u6E05\u7406");
+        console.log("缓存版本一致且缓存目录存在，不做缓存清理");
         return;
       } else {
-        console.log("\u7F13\u5B58\u7248\u672C\u4E0D\u4E00\u81F4\u6216\u7F13\u5B58\u76EE\u5F55\u4E0D\u5B58\u5728\uFF0C\u6E05\u7406\u7F13\u5B58");
+        console.log("缓存版本不一致或缓存目录不存在，清理缓存");
       }
       Laya.LocalStorage.setItem("CaCheVersion", AMConfig.CacheVersion);
       if (AMConfig.UseMainZip) {
@@ -725,7 +725,7 @@
      */
     Init(ExaminePath, ...param) {
       if (!this.mPlatform) {
-        console.log("\u83B7\u53D6\u5E73\u53F0\u5931\u8D25\uFF01\u4F7F\u7528\u9ED8\u8BA4\u8DEF\u52B2\u3002");
+        console.log("获取平台失败！使用默认路劲。");
         return;
       }
       this.ExaminePath = ExaminePath;
@@ -761,24 +761,24 @@
         return;
       }
       if (FrameConfig.cdn) {
-        console.log("\u8D70cdn");
+        console.log("走cdn");
         if (backFun)
           caller ? backFun.apply(caller) : backFun();
         return;
       }
       this.caller = caller;
       this.mBackFun = backFun;
-      console.log("\u5206\u5305\u72B6\u6001\uFF1A", AMConfig.UseSubPackge);
-      console.log("\u4E3B\u5305\u538B\u7F29\uFF1A", AMConfig.UseMainZip);
+      console.log("分包状态：", AMConfig.UseSubPackge);
+      console.log("主包压缩：", AMConfig.UseMainZip);
       AMConfig.UseMainZip ? this.LocalUnZip() : this.LoadingFnish(false);
     }
     LocalUnZip() {
       if (Laya.LocalStorage.getItem(AMConfig.UnZipInfo.subPackgeRoot + AMConfig.UnZipInfo.ZipName) == AMConfig.UnZipInfo.Version) {
-        console.log("\u7248\u672C\u53F7\u76F8\u540C\uFF0C\u4E0D\u505A\u89E3\u538B");
+        console.log("版本号相同，不做解压");
         this.LoadingFnish(false);
         return;
       } else {
-        console.log("\u7248\u672C\u53F7\u4E0D\u540C\uFF0C\u91CD\u89E3\u538B");
+        console.log("版本号不同，重解压");
       }
       this.unZip(AMConfig.UnZipInfo, false);
     }
@@ -788,17 +788,17 @@
         return;
       }
       if (Laya.LocalStorage.getItem(info.subPackgeRoot + info.ZipName) == info.Version) {
-        console.log("\u5206\u5305\uFF1A", info.ZipName, "\u7248\u672C\u53F7\u76F8\u540C\uFF0C\u4E0D\u62C9\u53D6\u89E3\u538B\u8D44\u6E90");
+        console.log("分包：", info.ZipName, "版本号相同，不拉取解压资源");
         this.LoadingFnish(true);
         return;
       } else {
-        console.log("\u7248\u672C\u53F7\u4E0D\u540C\uFF0C\u91CD\u62C9\u53D6\u5206\u5305\uFF1A", info.ZipName);
+        console.log("版本号不同，重拉取分包：", info.ZipName);
       }
       var s = this;
       this.mPlatform.loadSubpackage({
         name: info.subPackgeRoot,
         success: function(res) {
-          console.log("\u5206\u5305\uFF1A", info.ZipName, "\u62C9\u53D6\u6210\u529F");
+          console.log("分包：", info.ZipName, "拉取成功");
           s.recordSubLoadFinish(info);
           if (info.isZip) {
             s.unZip(info);
@@ -808,7 +808,7 @@
           }
         },
         fail: function(res) {
-          console.error("\u5206\u5305\uFF1A", info.ZipName, "\u5206\u5305\u62C9\u53D6\u5931\u8D25\uFF1A" + res);
+          console.error("分包：", info.ZipName, "分包拉取失败：" + res);
           s.LoadSubpackage(info);
         }
       });
@@ -825,39 +825,39 @@
       var needCreate;
       try {
         this.mFileMgr.accessSync(this.mCacheBase);
-        console.log("\u89E3\u538B\u7F13\u5B58\u76EE\u5F55\u5B58\u5728");
+        console.log("解压缓存目录存在");
         needCreate = false;
       } catch (e) {
         needCreate = true;
-        console.log("\u89E3\u538B\u7F13\u5B58\u76EE\u5F55\u4E0D\u5B58\u5728\uFF0C\u5148\u521B\u5EFA");
+        console.log("解压缓存目录不存在，先创建");
       }
       if (needCreate) {
         try {
           this.mFileMgr.mkdirSync(this.mCacheBase, true);
-          console.log("\u89E3\u538B\u7F13\u5B58\u76EE\u5F55\u521B\u5EFA\u6210\u529F");
+          console.log("解压缓存目录创建成功");
         } catch (e) {
-          console.error("\u538B\u7F13\u5B58\u76EE\u5F55\u521B\u5EFA\u5931\u8D25\uFF1A", e);
+          console.error("压缓存目录创建失败：", e);
           return;
         }
       }
       var zipPath = info.subPackgeRoot + info.ZipName;
       try {
         this.mFileMgr.accessSync(zipPath);
-        console.log("\u8BFB\u53D6\u538B\u7F29\u5305", info.ZipName, "\u6210\u529F");
+        console.log("读取压缩包", info.ZipName, "成功");
       } catch (e) {
-        console.error("\u538B\u7F29\u5305:", info.ZipName, "\u4E0D\u5B58\u5728\uFF0C\u8BF7\u68C0\u67E5\u538B\u7F29\u5305\u8DEF\u52B2");
+        console.error("压缩包:", info.ZipName, "不存在，请检查压缩包路劲");
         return;
       }
       this.mFileMgr.unzip({
         zipFilePath: zipPath,
         targetPath: this.mCacheBase,
         success(res) {
-          console.log("\u538B\u7F29\u5305\uFF1A", info.ZipName, "\u89E3\u538B\u6210\u529F");
+          console.log("压缩包：", info.ZipName, "解压成功");
           Laya.LocalStorage.setItem(info.subPackgeRoot + info.ZipName, info.Version);
           _AssetsMgr.Inst.LoadingFnish(IsSub);
         },
         fail(res) {
-          console.error("\u538B\u7F29\u5305\uFF1A", info.ZipName, "\u89E3\u538B\u5931\u8D25");
+          console.error("压缩包：", info.ZipName, "解压失败");
           _AssetsMgr.Inst.unZip(info);
         }
       });
@@ -2425,12 +2425,12 @@
       ActionInterval.prototype.startWithTarget.call(this, target);
       const relative = !!this._opts.relative;
       const props = this._props;
-      for (const property9 in props) {
-        const _t = target[property9];
+      for (const property11 in props) {
+        const _t = target[property11];
         if (_t === void 0) {
           continue;
         }
-        const prop = props[property9];
+        const prop = props[property11];
         const value = prop.value;
         if (typeof _t === "number") {
           prop.start = _t;
@@ -3163,7 +3163,7 @@
      */
     getWinScript(winName) {
       if (!this.isShowWin(winName)) {
-        Log.debug(`\u7A97\u53E3\uFF1A${winName}\u672A\u6CE8\u518C\uFF01`);
+        Log.debug(`窗口：${winName}未注册！`);
         return;
       }
       return this.showMap.get(winName);
@@ -3184,13 +3184,13 @@
      */
     openWindow(winName, args, closeCallBack, caller, openCallBack) {
       return __async(this, null, function* () {
-        Log.debug("\u6253\u5F00\u7A97\u53E3" + winName);
+        Log.debug("打开窗口" + winName);
         if (this.inLoad.indexOf(winName) != -1) {
-          Log.debug(`\u7A97\u53E3\uFF1A${winName}\u6B63\u5728\u52A0\u8F7D\uFF01`);
+          Log.debug(`窗口：${winName}正在加载！`);
           return;
         }
         if (this.isShowWin(winName)) {
-          Log.debug(`\u7A97\u53E3\uFF1A${winName}\u5DF2\u7ECF\u6253\u5F00\uFF01`);
+          Log.debug(`窗口：${winName}已经打开！`);
           return;
         }
         let prefabPath = ModuleConfig.getModulePrefabPath(winName);
@@ -3258,9 +3258,9 @@
      * @param args 参数
      */
     closeWindow(winName, args) {
-      Log.debug("\u5173\u95ED\u7A97\u53E3" + winName);
+      Log.debug("关闭窗口" + winName);
       if (!this.showMap.has(winName)) {
-        Log.warn("\u7A97\u53E3\u672A\u6253\u5F00:" + winName);
+        Log.warn("窗口未打开:" + winName);
         return;
       }
       let ctr = this.showMap.get(winName);
@@ -3366,7 +3366,7 @@
      */
     static hasModule(name) {
       if (!this.module[name]) {
-        Log.error("\u672A\u6CE8\u518C\u6A21\u5757:" + name);
+        Log.error("未注册模块:" + name);
         return false;
       }
       return true;
@@ -3445,14 +3445,14 @@
       });
     }
     onLoad() {
-      console.log("Banner\u52A0\u8F7D\u6210\u529F\uFF01");
+      console.log("Banner加载成功！");
       Laya.timer.clear(this, this.create);
       if (this.IsCreate)
         SDKUtils.SDK.mBanner.push(this);
       this.IsCreate = false;
     }
     onError(err) {
-      console.error("Banner\u52A0\u8F7D\u5931\u8D25\uFF01", err);
+      console.error("Banner加载失败！", err);
       Laya.timer.clear(this, this.create);
       Laya.timer.once(3e3, this, this.create);
     }
@@ -3464,10 +3464,10 @@
       if (style)
         this.AdObj.style = style;
       this.AdObj.show().then(() => {
-        console.log("Ban\u663E\u793A");
+        console.log("Ban显示");
         this.showNum++;
       }).catch(() => {
-        console.error("Ban\u663E\u793A\u5931\u8D25");
+        console.error("Ban显示失败");
       });
     }
     hide() {
@@ -3503,7 +3503,7 @@
         style
       });
       Obj.onLoad(() => {
-        console.log("\u539F\u751F\u5E7F\u544A\u52A0\u8F7D\u6210\u529F\uFF01");
+        console.log("原生广告加载成功！");
         Laya.timer.clear(this, this.create);
         if (this.isdestroy) {
           Obj.hide();
@@ -3515,7 +3515,7 @@
           this.show();
       });
       Obj.onError((err) => {
-        console.error("\u539F\u751F\u5E7F\u544A\u52A0\u8F7D\u5931\u8D25\uFF01");
+        console.error("原生广告加载失败！");
         Laya.timer.clear(this, this.create);
         Laya.timer.once(3e3, this, () => {
           this.create(style);
@@ -3530,11 +3530,11 @@
         return;
       this.AdObj.show().then(() => {
         this.showNum++;
-        console.log("\u539F\u751F\u663E\u793A\u6210\u529F\uFF01");
+        console.log("原生显示成功！");
         if (!this.createCanShow)
           this.hide();
       }).catch((err) => {
-        console.log("\u539F\u751F\u663E\u793A\u5931\u8D25\uFF01");
+        console.log("原生显示失败！");
       });
     }
     hide() {
@@ -3595,11 +3595,11 @@
     }
     onLoad() {
       Laya.timer.clear(this, this.show);
-      console.log("\u63D2\u5C4F\u52A0\u8F7D\u6210\u529F\uFF01");
+      console.log("插屏加载成功！");
       this.IsCreate = false;
     }
     onError(err) {
-      console.error("\u63D2\u5C4F\u52A0\u8F7D\u5931\u8D25\uFF01", err);
+      console.error("插屏加载失败！", err);
       Laya.timer.clear(this, this.show);
       Laya.timer.once(3e3, this, this.show);
     }
@@ -3645,10 +3645,10 @@
       this.AdObj = this.platform.createRewardedVideoAd({ adUnitId: this.Id });
       this.AdObj.onLoad(() => {
         Laya.timer.clear(this, this.load);
-        console.log("\u89C6\u9891\u52A0\u8F7D\u5B8C\u6210");
+        console.log("视频加载完成");
       });
       this.AdObj.onError((err) => {
-        console.log("\u89C6\u9891\u52A0\u8F7D\u5931\u8D25:", err);
+        console.log("视频加载失败:", err);
         Laya.timer.clear(this, this.load);
         Laya.timer.once(3e3, this, this.load);
       });
@@ -3667,10 +3667,10 @@
       this.finishFun = finish ? finish : null;
       this.closeFun = close ? close : null;
       this.AdObj.show().then(() => {
-        console.log("\u89C6\u9891show\u6210\u529F");
+        console.log("视频show成功");
       }).catch((err) => {
-        console.error("\u89C6\u9891show\u5931\u8D25\uFF1A", err);
-        SDK.ShowToast("\u89C6\u9891\u62C9\u53D6\u5931\u8D25");
+        console.error("视频show失败：", err);
+        SDK.ShowToast("视频拉取失败");
       });
     }
     destroy() {
@@ -3724,12 +3724,12 @@
         return;
       this.expBanner = new Banner(SDKConfig.BannerId[++this.expIndex % SDKConfig.BannerId.length]);
       this.expBanner.OnLoad = () => {
-        console.log("\u66DD\u5149banner\u52A0\u8F7D\u5B8C\u6210\uFF01");
+        console.log("曝光banner加载完成！");
         this.expBanner.show();
         Laya.timer.once(this.ExposureBannerTimer, this, this.exposureBanner);
       };
       this.expBanner.OnError = () => {
-        console.log("\u66DD\u5149banner\u521B\u5EFA\u5931\u8D25\uFF01");
+        console.log("曝光banner创建失败！");
         Laya.timer.once(3e3, this, this.exposureBanner);
       };
       this.expBanner.OnResize = (res) => {
@@ -3740,7 +3740,7 @@
       if (!this.platform)
         return;
       this.platform.onShow((res) => {
-        console.log("onShow\u56DE\u8C03", res);
+        console.log("onShow回调", res);
         if (res && res.scene) {
           FrameConfig.setSceneId(res.scene);
         }
@@ -3824,7 +3824,7 @@
       }
       if (this.mVideo.length < 1) {
         caller ? no && no.apply(caller) : no && no();
-        this.ShowToast("\u89C6\u9891\u62C9\u53D6\u4E2D\u3002\u3002\u3002");
+        this.ShowToast("视频拉取中。。。");
         return;
       }
       this.mVideo[++this.videoIndex % this.mVideo.length].show(caller, finish, close);
@@ -3879,7 +3879,7 @@
         return;
       }
       this.platform.shareAppMessage({
-        title: title || "\u53EA\u67090.01%\u7684\u4EBA\u80FD\u8FC7\u7B2C\u4E8C\u5173",
+        title: title || "只有0.01%的人能过第二关",
         imageUrl: imageUrl || "loading/loading_img/loading_icon.png"
       });
     }
@@ -3898,7 +3898,7 @@
      */
     static reportEvent(eventId, ...args) {
       if (this.platform == null) {
-        console.log("\u5FAE\u4FE1\u4E0A\u62A5\u4E8B\u4EF6", eventId, args);
+        console.log("微信上报事件", eventId, args);
         return;
       }
       let data = {};
@@ -3915,10 +3915,10 @@
       this.platform.requestSubscribeMessage({
         tmplIds,
         success(res) {
-          console.log("\u8BA2\u9605\u6210\u529F", res);
+          console.log("订阅成功", res);
         },
         fail(err) {
-          console.log("\u8BA2\u9605\u5931\u8D25", err);
+          console.log("订阅失败", err);
         }
       });
     }
@@ -4047,7 +4047,7 @@
             try {
               obj[itemName] = LocalStorage.getObject(itemName, JSON.parse(str));
             } catch (err) {
-              console.error("========== \u6570\u636E\u7ED3\u6784\u51FA\u9519 ==========");
+              console.error("========== 数据结构出错 ==========");
               console.error(str);
               console.error(err);
             }
@@ -4056,26 +4056,26 @@
       }
       this.localData = obj;
     }
-    getData(property9) {
+    getData(property11) {
       if (!this.localData) {
         this.initTabel();
       }
-      return this.localData[property9];
+      return this.localData[property11];
     }
-    setData(property9, value, type) {
-      this.localData[property9] = value;
+    setData(property11, value, type) {
+      this.localData[property11] = value;
       switch (type) {
         case "number" /* number */:
-          LocalStorage.setNumber(property9, this.localData[property9]);
+          LocalStorage.setNumber(property11, this.localData[property11]);
           break;
         case "string" /* string */:
-          LocalStorage.setString(property9, this.localData[property9]);
+          LocalStorage.setString(property11, this.localData[property11]);
           break;
         case "array" /* array */:
-          LocalStorage.setObject(property9, { data: this.localData[property9] });
+          LocalStorage.setObject(property11, { data: this.localData[property11] });
           break;
         case "object" /* object */:
-          LocalStorage.setObject(property9, this.localData[property9]);
+          LocalStorage.setObject(property11, this.localData[property11]);
           break;
       }
     }
@@ -4086,19 +4086,19 @@
       return LoaderManager.ConfigTable.TbLocalInfo.get("type");
     }
     /**设置本地存储 */
-    static setLocalInfo(property9, value, type) {
+    static setLocalInfo(property11, value, type) {
       if (!type) {
-        type = this.locaInfoType[property9];
+        type = this.locaInfoType[property11];
         if (!type) {
-          console.error("\u5C5E\u6027", property9, "\u4E0D\u5B58\u5728\u7C7B\u578B\uFF0C\u68C0\u67E5localInfo\u8868");
+          console.error("属性", property11, "不存在类型，检查localInfo表");
           return;
         }
       }
-      _DataUtils.Inst.setData(property9, value, type);
+      _DataUtils.Inst.setData(property11, value, type);
     }
     /**获取本地存储 */
-    static getLocalInfo(property9) {
-      return _DataUtils.Inst.getData(property9);
+    static getLocalInfo(property11) {
+      return _DataUtils.Inst.getData(property11);
     }
     /**获取常量 */
     static get Constant() {
@@ -4228,19 +4228,19 @@
         res = minuteTime + ":" + secondTime;
       } else if (type == 4) {
         if (hourTime != 0 || minuteTime != 0) {
-          res += minuteTime + "\u5206";
+          res += minuteTime + "分";
         }
         if (secondTime != 0)
-          res += secondTime + "\u79D2";
+          res += secondTime + "秒";
       } else if (type == 2) {
         if (hourTime != 0) {
-          res += hourTime + "\u65F6";
+          res += hourTime + "时";
         }
         if (hourTime != 0 || minuteTime != 0) {
-          res += minuteTime + "\u5206";
+          res += minuteTime + "分";
         }
         if (secondTime != 0)
-          res += secondTime + "\u79D2";
+          res += secondTime + "秒";
       } else {
         hourTime = hourTime < 10 ? "0" + hourTime : hourTime;
         minuteTime = minuteTime < 10 ? "0" + minuteTime : minuteTime;
@@ -4261,15 +4261,15 @@
       const second = Math.floor(seconds % 60);
       let result = "";
       if (day > 0) {
-        result += `${day}\u5929`;
+        result += `${day}天`;
       }
       if (hour > 0 || day > 0) {
-        result += `${hour}\u65F6`;
+        result += `${hour}时`;
       }
       if (minute > 0 || hour > 0 || day > 0) {
-        result += `${minute}\u5206`;
+        result += `${minute}分`;
       }
-      result += `${second}\u79D2`;
+      result += `${second}秒`;
       return result;
     }
     /**
@@ -4446,13 +4446,13 @@
       this.initProxy();
       this.initMudule();
       if (!ModuleConfig.hasModule(this.LoadingWindowName)) {
-        console.error(this.LoadingWindowName, "\u5FC5\u987B\u6CE8\u518C\uFF0C\u4E0D\u80FD\u4E3A\u7A7A");
+        console.error(this.LoadingWindowName, "必须注册，不能为空");
         return;
       }
       if (!this.securityEvent())
         return;
       if (!this.StartWindowName) {
-        console.error("\u542F\u52A8\u7A97\u53E3\u4E3A\u7A7A\uFF01\u68C0\u67E5frame/FrameMain.ts\u4E2D\u7684StartWindowName\u3002");
+        console.error("启动窗口为空！检查frame/FrameMain.ts中的StartWindowName。");
         return;
       }
       this.initBasePath();
@@ -4651,11 +4651,12 @@
       ModuleConfig.register("TipsWindow", "resources/view/tips/TipsWindow.lh", "tips" /* tips */);
       ModuleConfig.register("RepairWindow", "resources/view/kxtg/RepairWindow.lh");
       ModuleConfig.register("RepairInfoWindow", "resources/view/kxtg/RepairInfoWindow.lh");
+      ModuleConfig.register("kwsczRepairWindow", "resources/view/kwscz/kwsczRepairWindow.lh");
+      ModuleConfig.register("kwsczRepairInfoWindow", "resources/view/kwscz/kwsczRepairInfoWindow.lh");
     }
     initProxy() {
     }
     loadFinishInitOutEvent() {
-      this.addEvent("VIDEO_CLOSE_PLAYER_BGM", this, this.playBgm);
       this.initMusicState();
       this.playBgm();
       this.allInitFinish();
@@ -4676,166 +4677,9 @@
     regClass2("SJhD9Hf3Qo-D64I2qjKf2A")
   ], Start);
 
-  // src/game/model/loading/view/LoadingWindow.ts
+  // src/game/model/kwscz/view/kwsczRepairInfoWindow.ts
   var { regClass: regClass3, property: property3 } = Laya;
-  var LoadingWindow = class extends WindowBase {
-    onOpen(...param) {
-    }
-  };
-  LoadingWindow = __decorateClass([
-    regClass3("aSzAWA1fR2KsTQMZH9IKMQ")
-  ], LoadingWindow);
-
-  // src/game/model/loading/view/LoadingWindowRuntime.generated.ts
-  var LoadingWindowRuntimeBase = class extends Laya.Box {
-  };
-
-  // src/game/model/loading/view/LoadingWindowRuntime.ts
-  var { regClass: regClass4 } = Laya;
-  var LoadingWindowRuntime = class extends LoadingWindowRuntimeBase {
-  };
-  LoadingWindowRuntime = __decorateClass([
-    regClass4("cL4ToHm8QdiQSB8el0YFzg")
-  ], LoadingWindowRuntime);
-
-  // src/game/model/main/view/MainMenuTabItem.generated.ts
-  var MainMenuTabItemBase = class extends Laya.Box {
-  };
-
-  // src/game/model/main/view/MainMenuTabItem.ts
-  var { regClass: regClass5 } = Laya;
-  var MainMenuTabItem = class extends MainMenuTabItemBase {
-    onAwake() {
-      onClick(this, this.Button, this.onClickHander);
-    }
-    set_dataSource(data) {
-      if (!data)
-        return;
-      this.data = data;
-      this.Button.label = data.txt;
-    }
-    onClickHander() {
-      openWindow(this.data.win);
-    }
-  };
-  MainMenuTabItem = __decorateClass([
-    regClass5("FJaH2ibuQyimITS2Isd-ng")
-  ], MainMenuTabItem);
-
-  // src/game/model/main/MainModel.ts
-  var MainModel = class {
-    static get dataIdList() {
-      let list = [];
-      for (let key in this.data) {
-        list.push(Number(key));
-      }
-      return list;
-    }
-    static getDataById(id) {
-      return this.data[id];
-    }
-  };
-  MainModel.data = {
-    1: {
-      id: 1,
-      title: "\u5F00\u5FC3\u901A\u5173",
-      wins: [
-        { txt: "\u4FEE\u590D\u5173\u5361", win: "RepairWindow" }
-      ]
-    }
-  };
-
-  // src/game/model/main/view/MainMenuWindow.ts
-  var { regClass: regClass6, property: property4 } = Laya;
-  var MainMenuWindow = class extends WindowBase {
-    onInit() {
-    }
-    onOpen(id) {
-      this.data = MainModel.getDataById(id);
-      this.owner.titletxt.text = this.data.title;
-      this.owner.List.array = this.data.wins;
-    }
-    onClose(...param) {
-    }
-  };
-  MainMenuWindow = __decorateClass([
-    regClass6("L3BH70PfSJCfEYhp41CWCQ")
-  ], MainMenuWindow);
-
-  // src/game/model/main/view/MainMenuWindowRuntime.generated.ts
-  var MainMenuWindowRuntimeBase = class extends Laya.Box {
-  };
-
-  // src/game/model/main/view/MainMenuWindowRuntime.ts
-  var { regClass: regClass7 } = Laya;
-  var MainMenuWindowRuntime = class extends MainMenuWindowRuntimeBase {
-  };
-  MainMenuWindowRuntime = __decorateClass([
-    regClass7("SEhkKYsSRamL46N_FVhLXA")
-  ], MainMenuWindowRuntime);
-
-  // src/game/model/main/view/MainTabItem.generated.ts
-  var MainTabItemBase = class extends Laya.Box {
-  };
-
-  // src/game/model/main/view/MainTabItem.ts
-  var { regClass: regClass8 } = Laya;
-  var MainTabItem = class extends MainTabItemBase {
-    onAwake() {
-      onClick(this, this.Button, this.onClickHander);
-    }
-    set_dataSource(id) {
-      if (!id)
-        return;
-      this.data = MainModel.getDataById(id);
-      this.Button.label = this.data.title;
-    }
-    onClickHander() {
-      openWindow("MainMenuWindow", [this.data.id]);
-    }
-  };
-  MainTabItem = __decorateClass([
-    regClass8("Z46ogzIfQnSJ1msRoEz-mQ")
-  ], MainTabItem);
-
-  // src/game/model/main/view/MainWindow.ts
-  var { regClass: regClass9, property: property5 } = Laya;
-  var MainWindow = class extends WindowBase {
-    constructor() {
-      super(...arguments);
-      this.checkOnShow = false;
-      this.checkOnHide = false;
-    }
-    // private btns = [
-    //     {txt: "修复关卡", win: "RepairWindow"}
-    // ];
-    onInit() {
-    }
-    onOpen(...param) {
-      this.owner.List.array = MainModel.dataIdList;
-    }
-    onClose(...param) {
-    }
-  };
-  MainWindow = __decorateClass([
-    regClass9("BMlBEoGTSk-yDlqUJV9zAg")
-  ], MainWindow);
-
-  // src/game/model/main/view/MainWindowRuntime.generated.ts
-  var MainWindowRuntimeBase = class extends Laya.Box {
-  };
-
-  // src/game/model/main/view/MainWindowRuntime.ts
-  var { regClass: regClass10 } = Laya;
-  var MainWindowRuntime = class extends MainWindowRuntimeBase {
-  };
-  MainWindowRuntime = __decorateClass([
-    regClass10("COnJlFMuT2eYp5CY0s5w-g")
-  ], MainWindowRuntime);
-
-  // src/game/model/kxtg/view/RepairInfoWindow.ts
-  var { regClass: regClass11, property: property6 } = Laya;
-  var RepairInfoWindow = class extends WindowBase {
+  var kwsczRepairInfoWindow = class extends WindowBase {
     onInit() {
     }
     onOpen(str) {
@@ -4844,40 +4688,41 @@
     onClose(...param) {
     }
   };
-  RepairInfoWindow = __decorateClass([
-    regClass11("5_mRJI49Rd6LaoWdvmsCoA")
-  ], RepairInfoWindow);
+  kwsczRepairInfoWindow = __decorateClass([
+    regClass3("Wpx4EDmGSvea20SEcYMIWQ")
+  ], kwsczRepairInfoWindow);
 
-  // src/game/model/kxtg/view/RepairInfoWindowRuntime.generated.ts
-  var RepairInfoWindowRuntimeBase = class extends Laya.Box {
+  // src/game/model/kwscz/view/kwsczRepairInfoWindowRunetime.generated.ts
+  var kwsczRepairInfoWindowRunetimeBase = class extends Laya.Box {
   };
 
-  // src/game/model/kxtg/view/RepairInfoWindowRuntime.ts
-  var { regClass: regClass12 } = Laya;
-  var RepairInfoWindowRuntime = class extends RepairInfoWindowRuntimeBase {
+  // src/game/model/kwscz/view/kwsczRepairInfoWindowRunetime.ts
+  var { regClass: regClass4 } = Laya;
+  var kwsczRepairInfoWindowRunetime = class extends kwsczRepairInfoWindowRunetimeBase {
   };
-  RepairInfoWindowRuntime = __decorateClass([
-    regClass12("GdlBIIMyRIyn9P2FCNaBzA")
-  ], RepairInfoWindowRuntime);
+  kwsczRepairInfoWindowRunetime = __decorateClass([
+    regClass4("Jhcpw7WiR-yHdyr3CjT1FA")
+  ], kwsczRepairInfoWindowRunetime);
 
   // src/game/model/kxtg/KxtgEvent.ts
   var KxtgEvent = class {
   };
   KxtgEvent.DEL_EVELT = "KxtgEvent.DEL_EVELT";
 
-  // src/game/model/kxtg/view/RepairItem.generated.ts
-  var RepairItemBase = class extends Laya.Box {
+  // src/game/model/kwscz/view/kwsczRepairItem.generated.ts
+  var kwsczRepairItemBase = class extends Laya.Box {
   };
 
-  // src/game/model/kxtg/view/RepairItem.ts
-  var { regClass: regClass13 } = Laya;
-  var RepairItem = class extends RepairItemBase {
+  // src/game/model/kwscz/view/kwsczRepairItem.ts
+  var { regClass: regClass5 } = Laya;
+  var kwsczRepairItem = class extends kwsczRepairItemBase {
     onAwake() {
       onClick(this, this.delBtn, this.delOnClick);
       this.idInput.on(Laya.Event.INPUT, this, this.inputChange);
       this.levelInput.on(Laya.Event.INPUT, this, this.inputChange);
       this.versionInput.on(Laya.Event.INPUT, this, this.inputChange);
       this.skinInput.on(Laya.Event.INPUT, this, this.inputChange);
+      this.albumInput.on(Laya.Event.INPUT, this, this.inputChange);
     }
     set_dataSource(data) {
       if (!data)
@@ -4887,6 +4732,7 @@
       this.levelInput.text = data.level;
       this.versionInput.text = data.version;
       this.skinInput.text = data.skin;
+      this.albumInput.text = data.albumFragNum;
     }
     delOnClick() {
       sendEvent(KxtgEvent.DEL_EVELT, [this.data]);
@@ -4896,11 +4742,12 @@
       this.data.level = this.levelInput.text;
       this.data.version = this.versionInput.text;
       this.data.skin = this.skinInput.text;
+      this.data.albumFragNum = this.albumInput.text;
     }
   };
-  RepairItem = __decorateClass([
-    regClass13("rBhyynjbRKeMhieiA4trBg")
-  ], RepairItem);
+  kwsczRepairItem = __decorateClass([
+    regClass5("UCLTDHpzTMCt5BPzqlmqew")
+  ], kwsczRepairItem);
 
   // src/game/model/tips/TipsUtils.ts
   var TipsUtils = class {
@@ -4931,6 +4778,206 @@
   TipsUtils.tipsWinName = "TipsWindow";
   TipsUtils.tipsItemPrefabPath = "resources/view/tips/item/TipsItem.lh";
   TipsUtils.fractionItemPrefabPath = "resources/view/tips/item/FractionItem.lh";
+
+  // src/game/model/kwscz/kwsczModel.ts
+  var kwsczModel = class {
+    static get newRepairDataList() {
+      let list = [];
+      list.push(this.createKwsczRepairInfo());
+      return list;
+    }
+    static createKwsczRepairInfo() {
+      let obj = {
+        id: "",
+        level: "",
+        version: "",
+        skin: "",
+        albumFragNum: ""
+      };
+      return obj;
+    }
+    static get version() {
+      let version = TimeManger.Inst().secondTimeStamp;
+      return version;
+    }
+    /**生成数据 */
+    static generateData(list) {
+      let version = this.version;
+      let data = {};
+      for (let info of list) {
+        let obj = {};
+        obj.version = !!info.version && info.version != "" ? info.version : version;
+        let tempData = {};
+        if (info.level) {
+          tempData.level = info.level;
+        }
+        if (info.skin.length > 0) {
+          tempData.skin = [];
+          let arr = info.skin.split("|");
+          for (let item of arr) {
+            tempData.skin.push(Number(item));
+          }
+        }
+        obj.data = tempData;
+        data[info.id] = obj;
+        let rewards = [];
+        if (info.albumFragNum) {
+          rewards.push([2, Number(info.albumFragNum)]);
+        }
+        if (rewards.length > 0) {
+          tempData["rewards"] = rewards;
+        }
+      }
+      return JSON.stringify(data);
+    }
+    /**检测数据 */
+    static checkData(list) {
+      for (let i = 0; i < list.length; i++) {
+        let info = list[i];
+        if (info.id.length < 1) {
+          TipsUtils.showTips("id不能为空，第" + (i + 1) + "个");
+          return false;
+        }
+        if (info.skin.length > 0) {
+          let arr = info.skin.split("|");
+          for (let item of arr) {
+            if (!Number.isNaN(Number(item)))
+              continue;
+            TipsUtils.showTips("第" + (i + 1) + "个皮肤格式不对，id|id");
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+  };
+
+  // src/game/model/kwscz/view/kwsczRepairWindow.ts
+  var { regClass: regClass6, property: property4 } = Laya;
+  var kwsczRepairWindow = class extends WindowBase {
+    constructor() {
+      super(...arguments);
+      this.data = [];
+    }
+    onInit() {
+      onClick(this, this.owner.addBtn, this.addBtnOnClick);
+      onClick(this, this.owner.resetBtn, this.resetBtnOnClick);
+      onClick(this, this.owner.generateBtn, this.generateBtnOnClick);
+      addEvent(KxtgEvent.DEL_EVELT, this, this.delEvent);
+    }
+    onOpen(...param) {
+      this.resetBtnOnClick();
+    }
+    onClose(...param) {
+    }
+    delEvent(data) {
+      if (this.data.length == 1) {
+        TipsUtils.showTips("至少保留一个！");
+        return;
+      }
+      let index = this.data.indexOf(data);
+      if (index == -1)
+        return;
+      this.data.splice(index, 1);
+      this.owner.List.array = this.data;
+    }
+    addBtnOnClick() {
+      let obj = kwsczModel.createKwsczRepairInfo();
+      this.data.push(obj);
+      this.owner.List.array = this.data;
+      this.owner.List.tweenTo(this.data.length);
+    }
+    resetBtnOnClick() {
+      this.data = kwsczModel.newRepairDataList;
+      this.owner.List.array = this.data;
+    }
+    generateBtnOnClick() {
+      if (!kwsczModel.checkData(this.data)) {
+        return;
+      }
+      let str = kwsczModel.generateData(this.data);
+      openWindow("kwsczRepairInfoWindow", [str]);
+    }
+  };
+  kwsczRepairWindow = __decorateClass([
+    regClass6("6jbF7D2TSH6TcorLBa7r3g")
+  ], kwsczRepairWindow);
+
+  // src/game/model/kwscz/view/kwsczRepairWindowRuntime.generated.ts
+  var kwsczRepairWindowRuntimeBase = class extends Laya.Box {
+  };
+
+  // src/game/model/kwscz/view/kwsczRepairWindowRuntime.ts
+  var { regClass: regClass7 } = Laya;
+  var kwsczRepairWindowRuntime = class extends kwsczRepairWindowRuntimeBase {
+  };
+  kwsczRepairWindowRuntime = __decorateClass([
+    regClass7("6F-N1D0aS8-CzZWIPVuEYQ")
+  ], kwsczRepairWindowRuntime);
+
+  // src/game/model/kxtg/view/RepairInfoWindow.ts
+  var { regClass: regClass8, property: property5 } = Laya;
+  var RepairInfoWindow = class extends WindowBase {
+    onInit() {
+    }
+    onOpen(str) {
+      this.owner.TextArea.text = str;
+    }
+    onClose(...param) {
+    }
+  };
+  RepairInfoWindow = __decorateClass([
+    regClass8("5_mRJI49Rd6LaoWdvmsCoA")
+  ], RepairInfoWindow);
+
+  // src/game/model/kxtg/view/RepairInfoWindowRuntime.generated.ts
+  var RepairInfoWindowRuntimeBase = class extends Laya.Box {
+  };
+
+  // src/game/model/kxtg/view/RepairInfoWindowRuntime.ts
+  var { regClass: regClass9 } = Laya;
+  var RepairInfoWindowRuntime = class extends RepairInfoWindowRuntimeBase {
+  };
+  RepairInfoWindowRuntime = __decorateClass([
+    regClass9("GdlBIIMyRIyn9P2FCNaBzA")
+  ], RepairInfoWindowRuntime);
+
+  // src/game/model/kxtg/view/RepairItem.generated.ts
+  var RepairItemBase = class extends Laya.Box {
+  };
+
+  // src/game/model/kxtg/view/RepairItem.ts
+  var { regClass: regClass10 } = Laya;
+  var RepairItem = class extends RepairItemBase {
+    onAwake() {
+      onClick(this, this.delBtn, this.delOnClick);
+      this.idInput.on(Laya.Event.INPUT, this, this.inputChange);
+      this.levelInput.on(Laya.Event.INPUT, this, this.inputChange);
+      this.versionInput.on(Laya.Event.INPUT, this, this.inputChange);
+      this.skinInput.on(Laya.Event.INPUT, this, this.inputChange);
+    }
+    set_dataSource(data) {
+      if (!data)
+        return;
+      this.data = data;
+      this.idInput.text = data.id;
+      this.levelInput.text = data.level;
+      this.versionInput.text = data.version;
+      this.skinInput.text = data.skin;
+    }
+    delOnClick() {
+      sendEvent(KxtgEvent.DEL_EVELT, [this.data]);
+    }
+    inputChange() {
+      this.data.id = this.idInput.text;
+      this.data.level = this.levelInput.text;
+      this.data.version = this.versionInput.text;
+      this.data.skin = this.skinInput.text;
+    }
+  };
+  RepairItem = __decorateClass([
+    regClass10("rBhyynjbRKeMhieiA4trBg")
+  ], RepairItem);
 
   // src/game/model/kxtg/KxtgModel.ts
   var KxtgModel = class {
@@ -4978,11 +5025,11 @@
       for (let i = 0; i < list.length; i++) {
         let info = list[i];
         if (info.id.length < 1) {
-          TipsUtils.showTips("id\u4E0D\u80FD\u4E3A\u7A7A\uFF0C\u7B2C" + (i + 1) + "\u4E2A");
+          TipsUtils.showTips("id不能为空，第" + (i + 1) + "个");
           return false;
         }
         if (info.level.length < 1) {
-          TipsUtils.showTips("\u5173\u5361\u4E0D\u80FD\u4E3A\u7A7A\uFF0C\u7B2C" + (i + 1) + "\u4E2A");
+          TipsUtils.showTips("关卡不能为空，第" + (i + 1) + "个");
           return false;
         }
         if (info.skin.length > 0) {
@@ -4990,7 +5037,7 @@
           for (let item of arr) {
             if (!Number.isNaN(Number(item)))
               continue;
-            TipsUtils.showTips("\u7B2C" + (i + 1) + "\u4E2A\u76AE\u80A4\u683C\u5F0F\u4E0D\u5BF9\uFF0Cid|id");
+            TipsUtils.showTips("第" + (i + 1) + "个皮肤格式不对，id|id");
             return false;
           }
         }
@@ -5000,7 +5047,7 @@
   };
 
   // src/game/model/kxtg/view/RepairWindow.ts
-  var { regClass: regClass14, property: property7 } = Laya;
+  var { regClass: regClass11, property: property6 } = Laya;
   var RepairWindow = class extends WindowBase {
     onInit() {
       onClick(this, this.owner.addBtn, this.addBtnOnClick);
@@ -5015,7 +5062,7 @@
     }
     delEvent(data) {
       if (this.data.length == 1) {
-        TipsUtils.showTips("\u81F3\u5C11\u4FDD\u7559\u4E00\u4E2A\uFF01");
+        TipsUtils.showTips("至少保留一个！");
         return;
       }
       let index = this.data.indexOf(data);
@@ -5043,7 +5090,7 @@
     }
   };
   RepairWindow = __decorateClass([
-    regClass14("l0UP6WuRRYCiIFHsBJFmdg")
+    regClass11("l0UP6WuRRYCiIFHsBJFmdg")
   ], RepairWindow);
 
   // src/game/model/kxtg/view/RepairWindowRuntime.generated.ts
@@ -5051,15 +5098,176 @@
   };
 
   // src/game/model/kxtg/view/RepairWindowRuntime.ts
-  var { regClass: regClass15 } = Laya;
+  var { regClass: regClass12 } = Laya;
   var RepairWindowRuntime = class extends RepairWindowRuntimeBase {
   };
   RepairWindowRuntime = __decorateClass([
-    regClass15("4YgkNsegQ0ynmYEgeM1rqQ")
+    regClass12("4YgkNsegQ0ynmYEgeM1rqQ")
   ], RepairWindowRuntime);
 
-  // src/game/model/tips/TipsWindow.ts
+  // src/game/model/loading/view/LoadingWindow.ts
+  var { regClass: regClass13, property: property7 } = Laya;
+  var LoadingWindow = class extends WindowBase {
+    onOpen(...param) {
+    }
+  };
+  LoadingWindow = __decorateClass([
+    regClass13("aSzAWA1fR2KsTQMZH9IKMQ")
+  ], LoadingWindow);
+
+  // src/game/model/loading/view/LoadingWindowRuntime.generated.ts
+  var LoadingWindowRuntimeBase = class extends Laya.Box {
+  };
+
+  // src/game/model/loading/view/LoadingWindowRuntime.ts
+  var { regClass: regClass14 } = Laya;
+  var LoadingWindowRuntime = class extends LoadingWindowRuntimeBase {
+  };
+  LoadingWindowRuntime = __decorateClass([
+    regClass14("cL4ToHm8QdiQSB8el0YFzg")
+  ], LoadingWindowRuntime);
+
+  // src/game/model/main/view/MainMenuTabItem.generated.ts
+  var MainMenuTabItemBase = class extends Laya.Box {
+  };
+
+  // src/game/model/main/view/MainMenuTabItem.ts
+  var { regClass: regClass15 } = Laya;
+  var MainMenuTabItem = class extends MainMenuTabItemBase {
+    onAwake() {
+      onClick(this, this.Button, this.onClickHander);
+    }
+    set_dataSource(data) {
+      if (!data)
+        return;
+      this.data = data;
+      this.Button.label = data.txt;
+    }
+    onClickHander() {
+      openWindow(this.data.win);
+    }
+  };
+  MainMenuTabItem = __decorateClass([
+    regClass15("FJaH2ibuQyimITS2Isd-ng")
+  ], MainMenuTabItem);
+
+  // src/game/model/main/MainModel.ts
+  var MainModel = class {
+    static get dataIdList() {
+      let list = [];
+      for (let key in this.data) {
+        list.push(Number(key));
+      }
+      return list;
+    }
+    static getDataById(id) {
+      return this.data[id];
+    }
+  };
+  MainModel.data = {
+    1: {
+      id: 1,
+      title: "开心通关",
+      wins: [
+        { txt: "修复关卡", win: "RepairWindow" }
+      ]
+    },
+    2: {
+      id: 2,
+      title: "看我神操作",
+      wins: [
+        { txt: "修复关卡", win: "kwsczRepairWindow" }
+      ]
+    }
+  };
+
+  // src/game/model/main/view/MainMenuWindow.ts
   var { regClass: regClass16, property: property8 } = Laya;
+  var MainMenuWindow = class extends WindowBase {
+    onInit() {
+    }
+    onOpen(id) {
+      this.data = MainModel.getDataById(id);
+      this.owner.titletxt.text = this.data.title;
+      this.owner.List.array = this.data.wins;
+    }
+    onClose(...param) {
+    }
+  };
+  MainMenuWindow = __decorateClass([
+    regClass16("L3BH70PfSJCfEYhp41CWCQ")
+  ], MainMenuWindow);
+
+  // src/game/model/main/view/MainMenuWindowRuntime.generated.ts
+  var MainMenuWindowRuntimeBase = class extends Laya.Box {
+  };
+
+  // src/game/model/main/view/MainMenuWindowRuntime.ts
+  var { regClass: regClass17 } = Laya;
+  var MainMenuWindowRuntime = class extends MainMenuWindowRuntimeBase {
+  };
+  MainMenuWindowRuntime = __decorateClass([
+    regClass17("SEhkKYsSRamL46N_FVhLXA")
+  ], MainMenuWindowRuntime);
+
+  // src/game/model/main/view/MainTabItem.generated.ts
+  var MainTabItemBase = class extends Laya.Box {
+  };
+
+  // src/game/model/main/view/MainTabItem.ts
+  var { regClass: regClass18 } = Laya;
+  var MainTabItem = class extends MainTabItemBase {
+    onAwake() {
+      onClick(this, this.Button, this.onClickHander);
+    }
+    set_dataSource(id) {
+      if (!id)
+        return;
+      this.data = MainModel.getDataById(id);
+      this.Button.label = this.data.title;
+    }
+    onClickHander() {
+      openWindow("MainMenuWindow", [this.data.id]);
+    }
+  };
+  MainTabItem = __decorateClass([
+    regClass18("Z46ogzIfQnSJ1msRoEz-mQ")
+  ], MainTabItem);
+
+  // src/game/model/main/view/MainWindow.ts
+  var { regClass: regClass19, property: property9 } = Laya;
+  var MainWindow = class extends WindowBase {
+    constructor() {
+      super(...arguments);
+      this.checkOnShow = false;
+      this.checkOnHide = false;
+    }
+    onInit() {
+    }
+    onOpen(...param) {
+      this.owner.List.array = MainModel.dataIdList;
+    }
+    onClose(...param) {
+    }
+  };
+  MainWindow = __decorateClass([
+    regClass19("BMlBEoGTSk-yDlqUJV9zAg")
+  ], MainWindow);
+
+  // src/game/model/main/view/MainWindowRuntime.generated.ts
+  var MainWindowRuntimeBase = class extends Laya.Box {
+  };
+
+  // src/game/model/main/view/MainWindowRuntime.ts
+  var { regClass: regClass20 } = Laya;
+  var MainWindowRuntime = class extends MainWindowRuntimeBase {
+  };
+  MainWindowRuntime = __decorateClass([
+    regClass20("COnJlFMuT2eYp5CY0s5w-g")
+  ], MainWindowRuntime);
+
+  // src/game/model/tips/TipsWindow.ts
+  var { regClass: regClass21, property: property10 } = Laya;
   var TipsWindow = class extends WindowBase {
     constructor() {
       super(...arguments);
@@ -5156,7 +5364,7 @@
     }
   };
   TipsWindow = __decorateClass([
-    regClass16("GtRORJafSOWL4f1DsbcYlw")
+    regClass21("GtRORJafSOWL4f1DsbcYlw")
   ], TipsWindow);
 
   // src/game/model/tips/runtime/FractionItem.generated.ts
@@ -5164,7 +5372,7 @@
   };
 
   // src/game/model/tips/runtime/FractionItem.ts
-  var { regClass: regClass17 } = Laya;
+  var { regClass: regClass22 } = Laya;
   var FractionItem = class extends FractionItemBase {
     constructor() {
       super(...arguments);
@@ -5176,7 +5384,7 @@
     }
   };
   FractionItem = __decorateClass([
-    regClass17("q464BRQMQcmIQFQTSKLxMg")
+    regClass22("q464BRQMQcmIQFQTSKLxMg")
   ], FractionItem);
 
   // src/game/model/tips/runtime/TipsItem.generated.ts
@@ -5184,7 +5392,7 @@
   };
 
   // src/game/model/tips/runtime/TipsItem.ts
-  var { regClass: regClass18 } = Laya;
+  var { regClass: regClass23 } = Laya;
   var TipsItem = class extends TipsItemBase {
     setData(str) {
       this.content.text = str;
@@ -5214,7 +5422,7 @@
     }
   };
   TipsItem = __decorateClass([
-    regClass18("WMziF6zORoSPS5wUVRAZKg")
+    regClass23("WMziF6zORoSPS5wUVRAZKg")
   ], TipsItem);
 
   // src/game/model/tips/runtime/TipsWindowRuntime.generated.ts
@@ -5222,10 +5430,10 @@
   };
 
   // src/game/model/tips/runtime/TipsWindowRuntime.ts
-  var { regClass: regClass19 } = Laya;
+  var { regClass: regClass24 } = Laya;
   var TipsWindowRuntime = class extends TipsWindowRuntimeBase {
   };
   TipsWindowRuntime = __decorateClass([
-    regClass19("I3tfKsPsQX2icQEj2my_og")
+    regClass24("I3tfKsPsQX2icQEj2my_og")
   ], TipsWindowRuntime);
 })();

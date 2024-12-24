@@ -11,8 +11,7 @@
   "_$comp": [
     {
       "_$type": "ea36c5ec-3d93-487e-9372-8acb05aeebde",
-      "scriptPath": "../src/game/model/kwscz/view/kwsczRepairWindow.ts",
-      "text": ""
+      "scriptPath": "../src/game/model/kwscz/view/kwsczRepairWindow.ts"
     }
   ],
   "_$child": [
@@ -52,7 +51,7 @@
         "_$tmpl": "itemRender"
       },
       "repeatX": 1,
-      "repeatY": 4,
+      "repeatY": 3,
       "spaceY": 10,
       "scrollType": 2,
       "_$child": [

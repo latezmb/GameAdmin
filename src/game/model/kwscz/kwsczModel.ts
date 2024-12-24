@@ -14,7 +14,8 @@ export default class kwsczModel {
             id: "",
             level: "",
             version: "",
-            skin: ""
+            skin: "",
+            albumFragNum: ""
         }
         return obj;
     }
@@ -32,9 +33,11 @@ export default class kwsczModel {
             let obj: any = {};
             obj.version = (!!info.version && info.version != "") ? info.version : version;
             let tempData: any = {};
-            tempData.level = info.level;
-            tempData.skin = [];
+            if (info.level) {
+                tempData.level = info.level;
+            }
             if (info.skin.length > 0) {
+                tempData.skin = [];
                 let arr = info.skin.split("|");
                 for(let item of arr) {
                     tempData.skin.push(Number(item));
@@ -42,6 +45,15 @@ export default class kwsczModel {
             }
             obj.data = tempData;
             data[info.id] = obj;
+            
+            let rewards = [];
+            // 画册碎片
+            if (info.albumFragNum) {
+                rewards.push([2, Number(info.albumFragNum)]);
+            }
+            if (rewards.length > 0) {
+                tempData["rewards"] = rewards;
+            }
         }
         return JSON.stringify(data);
     }
@@ -77,5 +89,5 @@ export interface KwsczRepairInfo {
     level?: string,
     version: string,
     skin?: string,
-    rewards?: string,
+    albumFragNum?: string,
 }  

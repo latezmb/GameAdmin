@@ -9,7 +9,7 @@ const { regClass, property } = Laya;
 @regClass()
 export class kwsczRepairWindow extends WindowBase<kwsczRepairWindowRuntime> {
 
-    data: KwsczRepairInfo[]
+    data: KwsczRepairInfo[] = [];
 
     protected onInit(): void {
         onClick(this, this.owner.addBtn, this.addBtnOnClick);
@@ -54,7 +54,7 @@ export class kwsczRepairWindow extends WindowBase<kwsczRepairWindowRuntime> {
             return;
         }
         let str = kwsczModel.generateData(this.data);
-        openWindow("KwsczRepairInfoWindow", [str]);
+        openWindow("kwsczRepairInfoWindow", [str]);
     }
 
 }
