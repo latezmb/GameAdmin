@@ -4733,6 +4733,7 @@
       this.versionInput.text = data.version;
       this.skinInput.text = data.skin;
       this.albumInput.text = data.albumFragNum;
+      this.coinInput.text = data.coinNum;
     }
     delOnClick() {
       sendEvent(KxtgEvent.DEL_EVELT, [this.data]);
@@ -4743,6 +4744,7 @@
       this.data.version = this.versionInput.text;
       this.data.skin = this.skinInput.text;
       this.data.albumFragNum = this.albumInput.text;
+      this.data.coinNum = this.coinInput.text;
     }
   };
   kwsczRepairItem = __decorateClass([
@@ -4792,7 +4794,8 @@
         level: "",
         version: "",
         skin: "",
-        albumFragNum: ""
+        albumFragNum: "",
+        coinNum: ""
       };
       return obj;
     }
@@ -4823,6 +4826,9 @@
         let rewards = [];
         if (info.albumFragNum) {
           rewards.push([2, Number(info.albumFragNum)]);
+        }
+        if (info.coinNum) {
+          rewards.push([1, Number(info.coinNum)]);
         }
         if (rewards.length > 0) {
           tempData["rewards"] = rewards;

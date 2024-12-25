@@ -218,6 +218,44 @@
       "maxChars": 0,
       "prompt": "可空",
       "promptColor": "#A9A9A9"
+    },
+    {
+      "_$id": "qjb6xx7g",
+      "_$type": "Label",
+      "name": "(5)",
+      "x": 316,
+      "y": 93,
+      "width": 113,
+      "height": 20,
+      "text": "赠送金币数量",
+      "fontSize": 20,
+      "color": "rgba(255, 255, 255, 1)",
+      "bold": true,
+      "valign": "top",
+      "padding": "0,0,0,0",
+      "stroke": 4
+    },
+    {
+      "_$id": "zm1i6ilm",
+      "_$var": true,
+      "_$type": "TextInput",
+      "name": "coinInput",
+      "x": 452,
+      "y": 90,
+      "width": 101,
+      "height": 26,
+      "_mouseState": 2,
+      "text": "",
+      "fontSize": 20,
+      "color": "#FFFFFF",
+      "valign": "middle",
+      "overflow": "scroll",
+      "padding": "2,6,2,6",
+      "skin": "res://fc3bb457-8d97-4456-b6b6-304c6b064689",
+      "type": "number",
+      "maxChars": 0,
+      "prompt": "可空",
+      "promptColor": "#A9A9A9"
     }
   ]
 }

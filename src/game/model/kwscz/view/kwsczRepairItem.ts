@@ -24,6 +24,7 @@ export class kwsczRepairItem extends kwsczRepairItemBase {
         this.versionInput.text =data.version;
         this.skinInput.text = data.skin;
         this.albumInput.text = data.albumFragNum;
+        this.coinInput.text = data.coinNum;
     }
 
     private delOnClick() {
@@ -36,5 +37,6 @@ export class kwsczRepairItem extends kwsczRepairItemBase {
         this.data.version = this.versionInput.text;
         this.data.skin = this.skinInput.text;
         this.data.albumFragNum = this.albumInput.text;
+        this.data.coinNum = this.coinInput.text;
     }
 }

@@ -15,7 +15,8 @@ export default class kwsczModel {
             level: "",
             version: "",
             skin: "",
-            albumFragNum: ""
+            albumFragNum: "",
+            coinNum: ""
         }
         return obj;
     }
@@ -50,6 +51,10 @@ export default class kwsczModel {
             // 画册碎片
             if (info.albumFragNum) {
                 rewards.push([2, Number(info.albumFragNum)]);
+            }
+            // 金币
+            if (info.coinNum) {
+                rewards.push([1, Number(info.coinNum)]);
             }
             if (rewards.length > 0) {
                 tempData["rewards"] = rewards;
@@ -90,4 +95,5 @@ export interface KwsczRepairInfo {
     version: string,
     skin?: string,
     albumFragNum?: string,
+    coinNum?: string,
 }  

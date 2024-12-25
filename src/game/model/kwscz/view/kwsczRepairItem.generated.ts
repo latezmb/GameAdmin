@@ -11,5 +11,6 @@ export class kwsczRepairItemBase extends Laya.Box {
     public versionInput!: Laya.TextInput;
     public delBtn!: Laya.Button;
     public albumInput!: Laya.TextInput;
+    public coinInput!: Laya.TextInput;
 }
 
